@@ -23,44 +23,18 @@ const HomePage = () => {
                     </p>
 
                     {/* Action Buttons */}
-                    <div className="flex flex-col md:flex-row gap-6 justify-center">
+                    <div className="flex justify-center gap-6">
                         <Link 
-                            to="/production" 
+                            to="/admin-login" // Replace with your admin login route
                             className="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transform transition duration-200 ease-in-out"
                         >
-                            Production Management
+                            Login as Admin
                         </Link>
                         <Link 
-                            to="/inventory" 
+                            to="/dashboard" // Replace with your continue without login route
                             className="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transform transition duration-200 ease-in-out"
                         >
-                            Inventory Management
-                        </Link>
-                        <Link 
-                            to="/quality-control" 
-                            className="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transform transition duration-200 ease-in-out"
-                        >
-                            Quality Control
-                        </Link>
-                        <Link 
-                            to="/maintenance" 
-                            className="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transform transition duration-200 ease-in-out"
-                        >
-                            Maintenance
-                        </Link>
-                        {/* Link to Dashboard */}
-                        <Link 
-                            to="/dashboard" 
-                            className="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transform transition duration-200 ease-in-out"
-                        >
-                            Dashboard
-                        </Link>
-                        {/* Link to Employee Management */}
-                        <Link 
-                            to="/employee-management" 
-                            className="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transform transition duration-200 ease-in-out"
-                        >
-                            Employee Management
+                            Continue Without Login
                         </Link>
                     </div>
                 </div>

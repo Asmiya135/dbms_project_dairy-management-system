@@ -46,6 +46,11 @@ const Sidebar = () => (
                     Employee Management
                 </Link>
             </li>
+            <li>
+                <Link to="/query-page" className="block hover:bg-blue-700 transition duration-200 rounded p-2">
+                    Query Page
+                </Link>
+            </li>
         </ul>
     </div>
 );

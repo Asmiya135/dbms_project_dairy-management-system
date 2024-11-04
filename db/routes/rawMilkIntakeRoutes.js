@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const rawMilkIntakeController = require('../controllers/rawMilkIntake');
+const rawMilkIntakeController = require('../controllers/rawMilkIntakeController');
 
 // Route to get filtered raw milk intake records
 router.get('/', rawMilkIntakeController.getRawMilkIntake);

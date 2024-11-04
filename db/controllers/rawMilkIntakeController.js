@@ -1,4 +1,4 @@
-const rawMilkIntakeModel = require('../models/rawMilkIntakeModel');
+const rawMilkIntakeModel = require('../models/rawMilkIntake');
 
 // Function to get all raw milk intake records with optional filters
 exports.getRawMilkIntake = async (req, res) => {

@@ -130,9 +130,7 @@ CREATE TABLE Warehouse (
     Location VARCHAR(255) NOT NULL,
     StorageCapacity INT NOT NULL,
     TemperatureControlled BOOLEAN NOT NULL,
-    SecuritySystem VARCHAR(255),
-    ManagerID INT,
-    FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID) 
+    SecuritySystem VARCHAR(255)
 );
 
 INSERT INTO Warehouse (WarehouseID, WarehouseName, Location, StorageCapacity, TemperatureControlled, SecuritySystem, ManagerID) VALUES
