@@ -10,7 +10,6 @@ import ProductionPage from './pages/ProductionPage';
 import InventoryPage from './pages/InventoryPage';
 import QualityControlPage from './pages/QualityControlPage';
 import MaintenancePage from './pages/MaintenancePage';
-import LoginPage from './pages/LoginPage';
 import EmployeeManagementPage from './pages/EmployeeManagementPage';
 import AdminLogin from './pages/AdminLogin';
 import QueryPage from './pages/QueryPage';
@@ -32,7 +31,6 @@ function App() {
                             <Route path="/quality-control" element={<QualityControlPage />} />
                             <Route path="/maintenance" element={<MaintenancePage />} />
                             <Route path="/employee-management" element={<EmployeeManagementPage />} />
-                            <Route path="/login" element={<LoginPage />} />
                             <Route path="/admin-login" element={<AdminLogin />} />
                             <Route path="/query-page" element={<QueryPage />} />
                         </Routes>

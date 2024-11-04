@@ -17,8 +17,8 @@ const Sidebar = () => (
                 </Link>
             </li>
             <li>
-                <Link to="/login" className="block hover:bg-blue-700 transition duration-200 rounded p-2">
-                    Login
+                <Link to="/admin-login" className="block hover:bg-blue-700 transition duration-200 rounded p-2">
+                    Admin Login
                 </Link>
             </li>
             <li>
