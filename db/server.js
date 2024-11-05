@@ -17,6 +17,9 @@ const logisticsRoutes = require('./routes/logisticsRoutes');
 const supplierRoutes = require('./routes/supplierRoutes');
 const warehouseRoutes = require('./routes/warehouseRoutes');
 const authRoutes = require('./routes/authRoutes'); 
+const queryRoutes = require('./routes/queryRoutes'); // Import query routes
+
+
 
 const app = express();
 
@@ -36,7 +39,7 @@ app.use('/api/suppliers', supplierRoutes);
 app.use('/api/warehouses', warehouseRoutes);
 // app.use('/api/auth-routes', authRoutes);
 app.use('/api', authRoutes); // This will serve the login route as /api/login
-
+app.use('/api', queryRoutes); // Register the route under /api/query
 
 // Database connection
 db.connect((err) => {
