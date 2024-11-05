@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../AuthContext'; // Importing AuthContext
+import { useNavigate } from 'react-router-dom';
 
 const QueryPage = () => {
+  const { isAdmin } = useAuth(); // Accessing isAdmin from context
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
@@ -24,6 +28,21 @@ const QueryPage = () => {
 
   // Helper function to check if the result is an array of objects
   const isTableData = (data) => Array.isArray(data) && data.length > 0 && typeof data[0] === 'object';
+
+  // If the user is not an admin, show an access denied message
+  if (!isAdmin) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <h1 className="text-red-600 text-xl text-center mt-4">Access Denied. Please login as Database Admin.</h1>
+        <button 
+          onClick={() => navigate('/admin-login')} 
+          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+        >
+          Admin Login
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">

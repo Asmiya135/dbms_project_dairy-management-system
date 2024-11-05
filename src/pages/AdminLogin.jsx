@@ -1,11 +1,14 @@
-// src/pages/AdminLogin.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../AuthContext'; // Import the AuthContext
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const AdminLogin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const { loginAsAdmin } = useAuth(); // Access the login function
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -15,12 +18,16 @@ const AdminLogin = () => {
                 password,
             });
             setMessage(response.data.message); // Set welcome message
+            loginAsAdmin(); // Set admin state
+
+            // Wait for 1 second and then navigate to QueryPage
+            setTimeout(() => {
+                navigate('/query-page'); // Navigate to QueryPage
+            }, 1000); // 1000 milliseconds = 1 second
         } catch (error) {
             if (error.response) {
-                // If the server responded with a status other than 200
                 setMessage(error.response.data.message);
             } else {
-                // Handle other errors
                 setMessage('An error occurred. Please try again.');
             }
         }
