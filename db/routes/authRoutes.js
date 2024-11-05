@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 
-router.post('/login', (req, res) => {
+router.post('/admin-login', (req, res) => {
     const { username, password } = req.body;
 
     // Log the incoming username and password
