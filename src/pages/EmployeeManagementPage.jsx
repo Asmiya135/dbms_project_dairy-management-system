@@ -6,6 +6,17 @@ const EmployeeManagementPage = () => {
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [filters, setFilters] = useState({
+        employeeID: '',
+        firstName: '',
+        lastName: '',
+        position: '',
+        department: '',
+        location: '',
+        shiftTiming: '',
+        yearsExperience: '',
+        salary: '',
+    });
 
     // Fetch employees from the backend
     const fetchEmployees = async () => {
@@ -22,11 +33,112 @@ const EmployeeManagementPage = () => {
         }
     };
 
+    // Fetch filtered employees based on filters
+    const fetchFilteredEmployees = async () => {
+        setLoading(true);
+        setError(''); // Clear previous errors
+
+        const params = {};
+        // Add filters to params
+        Object.keys(filters).forEach(key => {
+            if (filters[key]) {
+                params[key] = filters[key];
+            }
+        });
+
+        console.log(params);
+        try {
+            const response = await axios.get('http://localhost:3001/api/employee-management/filtered', {
+                params,
+            });
+            setEmployees(response.data);
+        } catch (err) {
+            setError('Failed to fetch employee data');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Handle filter change in inputs
+    const handleFilterChange = (e) => {
+        const { name, value } = e.target;
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: value,
+        }));
+    };
+
     return (
         <div className="flex flex-col items-center justify-center p-8 bg-gray-100 min-h-screen">
             <h1 className="text-5xl font-bold text-gray-800 mb-4">Employee Management</h1>
 
-            {/* Button to navigate to EmployeeForm page */}
+            {/* Filters */}
+            <div className="flex flex-col space-y-2 mb-4">
+                <input
+                    name="employeeID"
+                    placeholder="Employee ID"
+                    value={filters.employeeID}
+                    onChange={handleFilterChange}
+                    className="border p-2 rounded"
+                />
+                <input
+                    name="firstName"
+                    placeholder="First Name"
+                    value={filters.firstName}
+                    onChange={handleFilterChange}
+                    className="border p-2 rounded"
+                />
+                <input
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={filters.lastName}
+                    onChange={handleFilterChange}
+                    className="border p-2 rounded"
+                />
+                <input
+                    name="position"
+                    placeholder="Position"
+                    value={filters.position}
+                    onChange={handleFilterChange}
+                    className="border p-2 rounded"
+                />
+                <input
+                    name="department"
+                    placeholder="Department"
+                    value={filters.department}
+                    onChange={handleFilterChange}
+                    className="border p-2 rounded"
+                />
+                <input
+                    name="location"
+                    placeholder="Location"
+                    value={filters.location}
+                    onChange={handleFilterChange}
+                    className="border p-2 rounded"
+                />
+                <input
+                    name="shiftTiming"
+                    placeholder="Shift Timing (HH:MM:SS)"
+                    value={filters.shiftTiming}
+                    onChange={handleFilterChange}
+                    className="border p-2 rounded"
+                />
+                <input
+                    name="yearsExperience"
+                    placeholder="Years of Experience"
+                    value={filters.yearsExperience}
+                    onChange={handleFilterChange}
+                    className="border p-2 rounded"
+                />
+                <input
+                    name="salary"
+                    placeholder="Salary"
+                    value={filters.salary}
+                    onChange={handleFilterChange}
+                    className="border p-2 rounded"
+                />
+            </div>
+
             <div className="flex space-x-4 mb-4">
                 <Link to="/add-employee">
                     <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
@@ -38,7 +150,14 @@ const EmployeeManagementPage = () => {
                     onClick={fetchEmployees}
                     className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
                 >
-                    Load Employee Data
+                    Load All Employees
+                </button>
+
+                <button
+                    onClick={fetchFilteredEmployees}
+                    className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-300"
+                >
+                    Load Filtered Employees
                 </button>
             </div>
 
@@ -56,35 +175,26 @@ const EmployeeManagementPage = () => {
                                 <th className="border border-gray-300 px-4 py-2">Name</th>
                                 <th className="border border-gray-300 px-4 py-2">Role</th>
                                 <th className="border border-gray-300 px-4 py-2">Department</th>
-                                <th className="border border-gray-300 px-4 py-2">Contact Number</th>
-                                <th className="border border-gray-300 px-4 py-2">Email ID</th>
                                 <th className="border border-gray-300 px-4 py-2">Shift Timing</th>
+                                <th className="border border-gray-300 px-4 py-2">Years Experience</th>
                                 <th className="border border-gray-300 px-4 py-2">Salary</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {employees.map((employee) => (
+                            {employees.map(employee => (
                                 <tr key={employee.EmployeeID}>
                                     <td className="border border-gray-300 px-4 py-2">{employee.EmployeeID}</td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        {employee.FirstName} {employee.LastName}
-                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2">{`${employee.FirstName} ${employee.LastName}`}</td>
                                     <td className="border border-gray-300 px-4 py-2">{employee.Position}</td>
                                     <td className="border border-gray-300 px-4 py-2">{employee.Department}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{employee.ContactNumber}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{employee.EmailID}</td>
                                     <td className="border border-gray-300 px-4 py-2">{employee.ShiftTiming}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{employee.YearsExperience}</td>
                                     <td className="border border-gray-300 px-4 py-2">{employee.Salary}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-            )}
-
-            {/* Message if no employees are found */}
-            {!loading && employees.length === 0 && !error && (
-                <p className="text-gray-500 mt-4">No employees found.</p>
             )}
         </div>
     );

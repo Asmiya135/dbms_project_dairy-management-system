@@ -1,18 +1,18 @@
-INSERT INTO PackagingEquipment (MachineID, EquipmentName, ModelNumber, Manufacturer, ManufacturingYear, PurchaseDate, MaintenanceSchedule, PackagingCapacityPerHour)
+INSERT INTO Warehouse (WarehouseID, WarehouseName, Location, StorageCapacity, TemperatureControlled)
 VALUES
-(1, 'AutoPacker', 'AP123', 'PackCorp', 2020, '2022-01-15', 'Monthly', 500),
-(2, 'ProPacker', 'PP456', 'PackCorp', 2019, '2021-05-20', 'Bi-Weekly', 450),
-(3, 'QuickPack', 'QP789', 'QuickMachines', 2021, '2022-03-10', 'Weekly', 300),
-(4,'PackMaster','PM101','MegaPack',2020,'2021-12-01','Monthly',600),
-(5, 'UltraPack', 'UP111', 'SuperPack', 2022, '2023-06-05', 'Quarterly', 700);
+    (1, 'Central Warehouse', 'New York', 10000, TRUE),
+    (2, 'Eastside Storage', 'Boston', 5000, FALSE),
+    (3, 'Westside Facility', 'San Francisco', 7500, TRUE),
+    (4, 'South Depot', 'Atlanta', 4000, FALSE),
+    (5, 'North Storage', 'Chicago', 6000, TRUE);
 
-INSERT INTO InventoryManagement (ProductID, StockLevel, ReorderThreshold, StorageCondition, WarehouseLocation, DispatchRecord)
+INSERT INTO InventoryManagement (ProductID, WarehouseID, StockLevel, ReorderThreshold, StorageCondition, WarehouseLocation, DispatchRecord)
 VALUES
-(101, 200, 20, 'Cool Dry Place', 'WH1', 'Record A'),
-(102, 150, 30, 'Frozen Storage', 'WH2', 'Record B'),
-(103, 300, 25, 'Room Temperature', 'WH3', 'Record C'),
-(104, 100, 10, 'Cool Dry Place', 'WH4', 'Record D'),
-(105, 250, 35, 'Frozen Storage', 'WH1', 'Record E');
+    (101, 1, 500, 20, 'Cool, Dry', 'Aisle 1', 'Dispatched on 2024-10-01'),
+    (102, 2, 200, 10, 'Temperature Controlled', 'Aisle 3', 'Dispatched on 2024-10-02'),
+    (103, 3, 1000, 30, 'Regular', 'Aisle 5', 'Pending Dispatch'),
+    (104, 4, 150, 15, 'Humidity Controlled', 'Aisle 2', 'Dispatched on 2024-10-03'),
+    (105, 5, 300, 25, 'Cool, Dry', 'Aisle 4', 'Pending Dispatch');
 
 INSERT INTO Employees (EmployeeID, FirstName, LastName, ContactNumber, EmailID, Position, Department, ShiftTiming, YearsExperience, Salary)
 VALUES
@@ -22,6 +22,21 @@ VALUES
 (1004, 'Michael', 'Williams', '5566778899', 'michael.williams@example.com', 'Machine Operator', 'Manufacturing', '08:00:00', 2, 40000.00),
 (1005, 'Sarah', 'Brown', '6677889900', 'sarah.brown@example.com', 'Supply Chain Analyst', 'Logistics', '09:00:00', 4, 52000.00);
 
+INSERT INTO Supplier (SupplierID, SupplierName, ContactNumber, EmailID, Address) 
+VALUES 
+    (1, 'Dairy Supply Co.', '1234567890', 'contact@dairysupply.com', '123 Milk Lane'),
+    (2, 'Fresh Farms', '0987654321', 'support@freshfarms.com', '456 Farm Road'),
+    (3, 'Pure Dairy Ltd.', '1122334455', 'info@puredairy.com', '789 Dairy Ave'),
+    (4, 'Golden Milk', '5566778899', 'sales@goldendairy.com', '321 Golden Street'),
+    (5, 'Green Pastures', '2233445566', 'contact@greenpastures.com', '654 Green Lane');
+
+INSERT INTO RawMilkIntake (SupplierID, IntakeID, Quantity, FatContent, PurityLevel, DeliveryDateTime, SourceLocation)
+VALUES
+(1, 101, 500, 3.5, 98.0, '2024-01-15 08:30:00', 'Farm A'),
+(1, 102, 600, 3.0, 95.5, '2024-01-16 09:00:00', 'Farm A'),
+(2, 201, 700, 4.0, 97.0, '2024-02-10 10:15:00', 'Farm B'),
+(3, 301, 450, 3.8, 96.5, '2024-03-05 11:20:00', 'Farm C'),
+(2, 202, 800, 3.2, 94.0, '2024-02-15 14:00:00', 'Farm B');
 
 
 INSERT INTO StockMovement (MovementID, ProductID, MovementType, MovementDateTime, QuantityMoved)
@@ -40,13 +55,21 @@ VALUES
 (4, 'Ghee', 'Clarified Butter', '2024-08-28', '2025-08-28', 'BATCH004', '1L glass jar', 180),
 (5, 'Milk', 'Dairy', '2024-11-02', '2024-11-05', 'BATCH005', '1L Tetra Pak', 500);
 
-INSERT INTO Logistics_equipment (Vehicle_ID, Vehicle_Type, Model_Number, Manufacturer, Purchase_Date, Maintenance_Records, Load_Capacity, Registration_Details)
+INSERT INTO Logistics_equipment (Vehicle_ID, Vehicle_Type, Maintenance_Records, Load_Capacity, Registration_Details)
 VALUES
-(1, 'Truck', 'T1234', 'Tata Motors', '2022-01-15', 'Serviced on 2023-08-20', 5000, 'MH12AB1234'),
-(2, 'Van', 'V5678', 'Mahindra', '2023-03-10', 'Serviced on 2024-05-10', 1500, 'MH14CD5678'),
-(3, 'Forklift', 'F7890', 'Godrej', '2021-12-05', 'Serviced on 2023-09-01', 1000, 'MH13EF7890'),
-(4, 'Container Truck', 'C3456', 'Ashok Leyland', '2020-11-20', 'Serviced on 2024-02-15', 8000, 'MH15GH3456'),
-(5, 'Trailer', 'T9876', 'BharatBenz', '2022-05-15', 'Serviced on 2024-01-10', 12000, 'MH16JK9876');
+(1, 'Refrigerated Truck', 'Last serviced: 2024-09-15', 5000, 'REG123456'),
+(2, 'Milk Tanker', 'Last serviced: 2024-08-10', 10000, 'REG654321'),
+(3, 'Delivery Van', 'Last serviced: 2024-10-05', 2000, 'REG789456'),
+(4, 'Flatbed Truck', 'Last serviced: 2024-09-25', 7500, 'REG321789'),
+(5, 'Compact Car', 'Last serviced: 2024-10-15', 500, 'REG987654');
+
+INSERT INTO Equipment (MachineID, EquipmentName, MaintenanceSchedule, Status, CapacitySpecification, PackagingCapacityPerHour, EquipmentType)
+VALUES
+(1, 'Automatic Filler', 'Monthly', 'Running', '2000 Liters', 1500, 'Packaging'),
+(2, 'Labeling Machine', 'Quarterly', 'Not Running', '5000 Units', 1200, 'Packaging'),
+(3, 'Pasteurizer', 'Bi-Monthly', 'Running', '1000 Liters', NULL, 'Processing'),
+(4, 'Mixer', 'Weekly', 'Running', '1500 Liters', NULL, 'Processing'),
+(5, 'Carton Sealer', 'Monthly', 'Running', '3000 Units', 1000, 'Packaging');
 
 INSERT INTO Shift_details (EmployeeID, Shift_Start, Shift_End)
 VALUES 
@@ -63,3 +86,11 @@ VALUES
 (3, '2024-09-10', 'Vikram Singh', 'Motor overheating', 'Cleaned motor and replaced cooling fan'),
 (4, '2024-08-20', 'Nisha Sharma', 'Inconsistent sealing', 'Replaced sealing elements and verified operation'),
 (5, '2024-09-15', 'Ajay Verma', 'Hydraulic fluid leak', 'Replaced seal and refilled fluid');
+
+INSERT INTO VehicleMaintenance (VehicleID, MaintenanceDate, IssueReported, MaintenanceCost)
+VALUES
+(1, '2024-01-15', 'Oil change and filter replacement', 150.00),
+(2, '2024-02-20', 'Brake pad replacement', 200.50),
+(1, '2024-03-05', 'Tire rotation and alignment', 80.00),
+(3, '2024-04-10', 'Engine tune-up', 300.00),
+(2, '2024-05-18', 'Battery replacement', 120.75);
