@@ -10,7 +10,7 @@ const cors = require('cors');
 const rawMilkIntakeRoutes = require('./routes/rawMilkIntakeRoutes');
 const processedProductsRoutes = require('./routes/processedProductsRoutes');
 const inventoryRoutes = require('./routes/inventoryRoutes');
-const employeesRoutes = require('./routes/employeesRoutes');
+
 const packagingEquipmentRoutes = require('./routes/packagingEquipmentRoutes');
 const processingEquipmentRoutes = require('./routes/processingEquipmentRoutes');
 const logisticsRoutes = require('./routes/logisticsRoutes');
@@ -18,7 +18,7 @@ const supplierRoutes = require('./routes/supplierRoutes');
 const warehouseRoutes = require('./routes/warehouseRoutes');
 const authRoutes = require('./routes/authRoutes'); 
 const queryRoutes = require('./routes/queryRoutes'); // Import query routes
-
+const employeesRoutes = require('./routes/employeesRoutes');
 
 
 const app = express();
@@ -26,12 +26,13 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.json());
 
 // Routes
 app.use('/api/raw-milk-intake', rawMilkIntakeRoutes);
 app.use('/api/processed-products', processedProductsRoutes);
 app.use('/api/inventory', inventoryRoutes);
-app.use('/api/employees', employeesRoutes);
+
 app.use('/api/packaging-equipment', packagingEquipmentRoutes);
 app.use('/api/processing-equipment', processingEquipmentRoutes);
 app.use('/api/logistics', logisticsRoutes);
@@ -40,6 +41,7 @@ app.use('/api/warehouses', warehouseRoutes);
 // app.use('/api/auth-routes', authRoutes);
 app.use('/api', authRoutes); // This will serve the login route as /api/login
 app.use('/api', queryRoutes); // Register the route under /api/query
+app.use('/api', employeesRoutes);
 
 // Database connection
 db.connect((err) => {

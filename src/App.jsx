@@ -13,6 +13,7 @@ import MaintenancePage from './pages/MaintenancePage';
 import EmployeeManagementPage from './pages/EmployeeManagementPage';
 import AdminLogin from './pages/AdminLogin';
 import QueryPage from './pages/QueryPage';
+import EmployeeForm from './pages/EmployeeForm';
 import './App.css'
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
                             <Route path="/employee-management" element={<EmployeeManagementPage />} />
                             <Route path="/admin-login" element={<AdminLogin />} />
                             <Route path="/query-page" element={<QueryPage />} />
+                            <Route path="/add-employee" element={<EmployeeForm />} />
                         </Routes>
                     </div>
                 </div>

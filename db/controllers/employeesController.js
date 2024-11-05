@@ -1,39 +1,35 @@
-const ShiftDetails = require('../models/ShiftDetails');
+// db/controllers/employeesController.js
+const db = require('../config/db');
 
-// Get all employees with their shift details
-exports.getEmployeesWithShifts = (req, res) => {
-    ShiftDetails.getEmployeesWithShifts((err, results) => {
+// Controller to get all employees
+const getEmployees = (req, res) => {
+    const query = 'SELECT * FROM Employees';
+
+    db.query(query, (err, results) => {
         if (err) {
-            console.error("Error fetching employees with shifts:", err);
-            res.status(500).json({ error: "Database query error" });
-        } else {
-            res.json(results);
+            console.error('Error fetching employees:', err);
+            return res.status(500).json({ error: 'Failed to fetch employee data' });
         }
+        res.json(results);
     });
 };
 
-// Add a shift for a specific employee
-exports.addShift = (req, res) => {
-    const { EmployeeID, ShiftStart, ShiftEnd } = req.body;
-    ShiftDetails.add({ EmployeeID, ShiftStart, ShiftEnd }, (err, result) => {
+// Controller to add a new employee
+const addEmployee = (req, res) => {
+    const { EmployeeID, FirstName, LastName, ContactNumber, EmailID, Position, Department, ShiftTiming, YearsExperience, Salary } = req.body;
+
+    const query = `
+        INSERT INTO Employees (EmployeeID, FirstName, LastName, ContactNumber, EmailID, Position, Department, ShiftTiming, YearsExperience, Salary)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(query, [EmployeeID, FirstName, LastName, ContactNumber, EmailID, Position, Department, ShiftTiming, YearsExperience, Salary], (err, results) => {
         if (err) {
-            console.error("Error adding shift:", err);
-            res.status(500).json({ error: "Database query error" });
-        } else {
-            res.json({ message: "Shift added successfully", shiftID: result.insertId });
+            console.error('Error adding employee:', err);
+            return res.status(500).json({ error: err.message });
         }
+        res.status(201).json({ message: 'Employee added successfully', employeeId: results.insertId });
     });
 };
 
-// Get all shifts for a specific employee
-exports.getShiftsByEmployeeID = (req, res) => {
-    const { EmployeeID } = req.params;
-    ShiftDetails.getByEmployeeID(EmployeeID, (err, results) => {
-        if (err) {
-            console.error("Error fetching shifts for employee:", err);
-            res.status(500).json({ error: "Database query error" });
-        } else {
-            res.json(results);
-        }
-    });
-};
+module.exports = { getEmployees, addEmployee }; // Ensure both are exported

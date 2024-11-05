@@ -41,8 +41,7 @@ CREATE TABLE Employees (
     Department VARCHAR(50),
     ShiftTiming TIME,
     YearsExperience INT CHECK (YearsExperience >= 0),
-    Salary DECIMAL(18, 2) CHECK (Salary >= 0),
-    Location VARCHAR(100)
+    Salary DECIMAL(18, 2) CHECK (Salary >= 0)
 );
 
 CREATE TABLE StockMovement (

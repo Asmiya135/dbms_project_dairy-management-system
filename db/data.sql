@@ -14,13 +14,14 @@ VALUES
 (104, 100, 10, 'Cool Dry Place', 'WH4', 'Record D'),
 (105, 250, 35, 'Frozen Storage', 'WH1', 'Record E');
 
-INSERT INTO Employees (EmployeeID, FirstName, LastName, ContactNumber, EmailID, Position, ShiftTiming, YearsExperience, Salary, Location)
+INSERT INTO Employees (EmployeeID, FirstName, LastName, ContactNumber, EmailID, Position, Department, ShiftTiming, YearsExperience, Salary)
 VALUES
-(1001, 'John', 'Doe', 9876543210, 'john.doe@example.com', 'Manager', '09:00:00', 5, 50000.00, 'NYC'),
-(1002, 'Jane', 'Smith', 9876543211, 'jane.smith@example.com', 'Supervisor', '10:00:00', 4, 40000.00, 'LA'),
-(1003, 'Mike', 'Johnson', 9876543212, 'mike.johnson@example.com', 'Technician', '08:00:00', 3, 35000.00, 'Chicago'),
-(1004, 'Anna', 'Brown', 9876543213, 'anna.brown@example.com', 'Operator', '07:00:00', 2, 25000.00, 'Houston'),
-(1005, 'David', 'Lee', 9876543214, 'david.lee@example.com', 'Assistant', '06:00:00', 1, 25000.00, 'Seattle');
+(1001, 'John', 'Doe', '1234567890', 'john.doe@example.com', 'Production Supervisor', 'Manufacturing', '08:00:00', 5, 60000.00),
+(1002, 'Jane', 'Smith', '0987654321', 'jane.smith@example.com', 'Logistics Coordinator', 'Logistics', '09:00:00', 3, 45000.00),
+(1003, 'Emily', 'Johnson', '1122334455', 'emily.johnson@example.com', 'Warehouse Manager', 'Warehouse', '07:00:00', 7, 75000.00),
+(1004, 'Michael', 'Williams', '5566778899', 'michael.williams@example.com', 'Machine Operator', 'Manufacturing', '08:00:00', 2, 40000.00),
+(1005, 'Sarah', 'Brown', '6677889900', 'sarah.brown@example.com', 'Supply Chain Analyst', 'Logistics', '09:00:00', 4, 52000.00);
+
 
 
 INSERT INTO StockMovement (MovementID, ProductID, MovementType, MovementDateTime, QuantityMoved)
