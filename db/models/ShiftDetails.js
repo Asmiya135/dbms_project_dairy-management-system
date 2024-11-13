@@ -23,7 +23,7 @@ const ShiftDetails = {
     // Get all employees with shift details
     getEmployeesWithShifts: (callback) => {
         const sql = `
-            SELECT e.*, sd.ShiftID, sd.ShiftStart, sd.ShiftEnd
+            SELECT e.EmployeeID, e.FirstName, e.LastName, e.Position, e.Department, sd.ShiftID, sd.ShiftStart, sd.ShiftEnd
             FROM Employees e
             LEFT JOIN ShiftDetails sd ON e.EmployeeID = sd.EmployeeID
             ORDER BY e.EmployeeID, sd.ShiftStart DESC

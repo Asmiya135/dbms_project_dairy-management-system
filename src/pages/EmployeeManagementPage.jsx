@@ -6,6 +6,9 @@ const EmployeeManagementPage = () => {
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [showShiftColumns, setShowShiftColumns] = useState(false);
+    const [deleteEmployeeID, setDeleteEmployeeID] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [filters, setFilters] = useState({
         employeeID: '',
         firstName: '',
@@ -18,10 +21,31 @@ const EmployeeManagementPage = () => {
         salary: '',
     });
 
+
+    // Function to prompt for EmployeeID and delete the employee
+    const handleDeleteEmployee = async () => {
+        setLoading(true);
+        setError('');
+        try {
+            await axios.delete(`http://localhost:3001/api/employee-management/${deleteEmployeeID}`);
+            setEmployees((prevEmployees) =>
+                prevEmployees.filter((employee) => employee.EmployeeID !== parseInt(deleteEmployeeID))
+            );
+            alert('Employee deleted successfully');
+            setShowDeleteModal(false);
+            setDeleteEmployeeID('');
+        } catch (err) {
+            setError('Failed to delete employee');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Fetch employees from the backend
     const fetchEmployees = async () => {
         setLoading(true);
         setError(''); // Clear previous errors
+        setShowShiftColumns(false);
 
         try {
             const response = await axios.get('http://localhost:3001/api/employee-management'); // Adjust URL if needed
@@ -37,6 +61,7 @@ const EmployeeManagementPage = () => {
     const fetchFilteredEmployees = async () => {
         setLoading(true);
         setError(''); // Clear previous errors
+        setShowShiftColumns(false);
 
         const params = {};
         // Add filters to params
@@ -54,6 +79,21 @@ const EmployeeManagementPage = () => {
             setEmployees(response.data);
         } catch (err) {
             setError('Failed to fetch employee data');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchEmployeesWithShifts = async () => {
+        setLoading(true);
+        setError('');
+        setShowShiftColumns(true);
+
+        try {
+            const response = await axios.get('http://localhost:3001/api/employee-management/shifts'); // Adjust URL if needed
+            setEmployees(response.data);
+        } catch (err) {
+            setError('Failed to fetch employee and shift data');
         } finally {
             setLoading(false);
         }
@@ -159,10 +199,57 @@ const EmployeeManagementPage = () => {
                 >
                     Load Filtered Employees
                 </button>
+
+                <button
+                    onClick={fetchEmployeesWithShifts}
+                    className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition duration-300"
+                >
+                    Load Employees with Shifts
+                </button>
+
+                {/* Delete Employee Button */}
+                <button
+                    onClick={() => setShowDeleteModal(true)}
+                    className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition duration-300"
+                >
+                    Delete Employee
+                </button>
+
             </div>
 
             {loading && <p className="text-blue-600">Loading...</p>}
             {error && <p className="text-red-600">{error}</p>}
+
+            {/* Delete Employee Modal */}
+            {showDeleteModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+                        <h2 className="text-lg font-semibold mb-4">Delete Employee</h2>
+                        <p className="mb-2 text-gray-700">Enter the Employee ID you want to delete:</p>
+                        <input
+                            type="number"
+                            value={deleteEmployeeID}
+                            onChange={(e) => setDeleteEmployeeID(e.target.value)}
+                            placeholder="Employee ID"
+                            className="border border-gray-300 rounded w-full p-2 mb-4"
+                        />
+                        <div className="flex justify-end space-x-2">
+                            <button
+                                onClick={() => setShowDeleteModal(false)}
+                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleDeleteEmployee}
+                                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Display employee data if available */}
             {!loading && employees.length > 0 && (
@@ -175,9 +262,15 @@ const EmployeeManagementPage = () => {
                                 <th className="border border-gray-300 px-4 py-2">Name</th>
                                 <th className="border border-gray-300 px-4 py-2">Role</th>
                                 <th className="border border-gray-300 px-4 py-2">Department</th>
-                                <th className="border border-gray-300 px-4 py-2">Shift Timing</th>
                                 <th className="border border-gray-300 px-4 py-2">Years Experience</th>
                                 <th className="border border-gray-300 px-4 py-2">Salary</th>
+                                {showShiftColumns && (
+                                    <>
+                                        <th className="border border-gray-300 px-4 py-2">Shift Start</th>
+                                        <th className="border border-gray-300 px-4 py-2">Shift End</th>
+                                    </>
+                                )}
+
                             </tr>
                         </thead>
                         <tbody>
@@ -187,9 +280,19 @@ const EmployeeManagementPage = () => {
                                     <td className="border border-gray-300 px-4 py-2">{`${employee.FirstName} ${employee.LastName}`}</td>
                                     <td className="border border-gray-300 px-4 py-2">{employee.Position}</td>
                                     <td className="border border-gray-300 px-4 py-2">{employee.Department}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{employee.ShiftTiming}</td>
                                     <td className="border border-gray-300 px-4 py-2">{employee.YearsExperience}</td>
                                     <td className="border border-gray-300 px-4 py-2">{employee.Salary}</td>
+                                    {showShiftColumns && (
+                                        <>
+                                            <td className="border border-gray-300 px-4 py-2">
+                                                {employee.Shift_Start ? new Date(employee.Shift_Start).toLocaleString() : "N/A"}
+                                            </td>
+                                            <td className="border border-gray-300 px-4 py-2">
+                                                {employee.Shift_End ? new Date(employee.Shift_End).toLocaleString() : "N/A"}
+                                            </td>
+                                        </>
+                                    )}
+
                                 </tr>
                             ))}
                         </tbody>
