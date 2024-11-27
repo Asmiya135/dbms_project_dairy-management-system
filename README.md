@@ -45,3 +45,11 @@ The Dairy Management System is a comprehensive web-based application designed to
 - **Arsalan Sayed** GitHub: [@arsalan9702](https://github.com/arsalan9702)  
 - **Hetanshi Shah** GitHub: [@hetanshi18](https://github.com/hetanshi18)
 
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
+
