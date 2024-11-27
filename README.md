@@ -40,7 +40,8 @@ The Dairy Management System is a comprehensive web-based application designed to
    ```bash
    git clone <repository-url>
    cd Dairy-Management-System
-Contributors
-Asmiya Sayyad GitHub: @Asmiya135
-Arsalan Sayed GitHub: @arsalan9702
-Hetanshi Shah GitHub: @hetanshi18
+### Contributors
+- **Asmiya Sayyad** GitHub: [@Asmiya135](https://github.com/Asmiya135)  
+- **Arsalan Sayed** GitHub: [@arsalan9702](https://github.com/arsalan9702)  
+- **Hetanshi Shah** GitHub: [@hetanshi18](https://github.com/hetanshi18)
+
